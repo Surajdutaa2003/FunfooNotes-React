@@ -18,6 +18,12 @@ function Archive() {
       console.error("Error fetching archived notes:", err);
     }
   };
+  
+  const handleNotes = (noteDetails, action) => {
+    if(action === "unarchive"){
+      setArchivedNotes((prev) => prev.filter((note) => note.id !== noteDetails?.id));
+    }
+  } 
 
   return (
     <div className="notes-section">
@@ -25,7 +31,7 @@ function Archive() {
       <div className="notes-grid">
         {archivedNotes.length > 0 ? (
           archivedNotes.map((note) => (
-            <NoteCard key={note.id} note={note} />
+            <NoteCard key={note.id} note={note} handleNoteList={handleNotes} container={"archive"}/>
           ))
         ) : (
           <p>No archived notes available</p>

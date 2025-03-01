@@ -7,6 +7,7 @@ import "./Dashboard.css";
 function Dashboard() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // Add search state
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("userEmail");
@@ -21,10 +22,16 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <Header toggleSidebar={toggleSidebar} userEmail={userEmail} />
+      <Header 
+        toggleSidebar={toggleSidebar} 
+        userEmail={userEmail}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
+      
       <div className="dashboard-container">
         <Sidebar isCollapsed={isSidebarCollapsed} />
-        <Outlet /> {/* ✅ Correct routing for Notes & Archive */}
+        <Outlet context={{ searchQuery }} /> {/* Pass searchQuery to child routes */}
       </div>
     </div>
   );

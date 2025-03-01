@@ -78,12 +78,12 @@ export const addNote = async (noteData) => {
 };
 
 // Archive a note
-export const archiveNote = async (noteId) => {
+export const archiveNote = async (noteId, archiveOption) => {
   try {
     const token = getAuthToken();
     if (!token) throw new Error("Missing authentication token!");
 
-    const payload = { noteIdList: [noteId], isArchived: true };
+    const payload = { noteIdList: [noteId], isArchived: archiveOption };
     
     const response = await axios.post(`${NOTES_URL}/archiveNotes`, payload, {
       headers: { Authorization: token },
@@ -112,5 +112,23 @@ export const getArchivedNotes = async () => {
   } catch (error) {
     console.error("❌ Failed to fetch archived notes:", error.response?.data?.message || error.message);
     return { data: [] }; // Prevents app crash
+  }
+};
+// delete forever
+export const deleteForeverNote = async (noteId) => {
+  try {
+    
+    const token = getAuthToken();
+    if (!token) throw new Error("Missing authentication token!");
+  
+    const response = await axios.post(`${NOTES_URL}/deleteForeverNotes`, {
+      noteIdList: [noteId],
+      isDeleted: true
+    },{
+      headers: { Authorization: token },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };

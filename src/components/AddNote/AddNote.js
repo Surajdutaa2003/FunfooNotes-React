@@ -29,7 +29,7 @@ function AddNote({ onNoteAdded }) {
       addNote(note)
         .then((res) => {
           // console.log(res)
-          onNoteAdded(res.data.data,"add"); // **Instant UI update**
+          onNoteAdded(res?.status?.details,"add"); // **Instant UI update**
           setNote({ title: "", description: "" }); // Reset form after successful submission
           setIsExpanded(false); 
         })
